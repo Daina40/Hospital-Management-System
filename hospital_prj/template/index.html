@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <title>Crud application</title>
+  </head>
+  <body>
+    
+    <h2 class="alert alert-warning text-center"> Hospital Information </h2>
+
+    <div class='container mt-3'>
+
+        {% for message in messages %}
+        <p class='alert alert-success mt-3'>{{message}}</p>
+        {% endfor %}
+
+        {% if latest_item %}
+        <form method="POST" action="{% url 'update_item' latest_item.id %}"> {% csrf_token %}
+            <div class="form-group mb-3">
+              <label>Hospital Name</label>
+              <input type="text" class="form-control" value="{{latest_item.name}}" name="name" placeholder="Enter Hospital Name">
+            </div>
+
+            <div class="form-group mb-3">
+                <label>Hospital Address</label>
+                <input type="text"  class="form-control" value="{{latest_item.address}}" name="address" placeholder="Enter Hospital Address">
+            </div>
+
+            <div class="form-group mb-3">
+                <label>Hospital Contact Number</label>
+                <input type="text" value="{{latest_item.contact}}" name="contact" class="form-control" placeholder="Enter Hospital Contact Number">
+            </div>
+            
+            <div class='text-center mt-4'>
+            <button type="submit" class="btn btn-success">Update</button>
+            </div>
+        </form>
+        
+        {% else %}
+        <form method="POST" action="{% url 'add_item' %}"> {% csrf_token %}
+            <div class="form-group mb-3">
+              <label>Hospital Name</label>
+              <input type="text" name="name" class="form-control" placeholder="Enter Hospital Name">
+            </div>
+
+            <div class="form-group mb-3">
+                <label>Hospital Address</label>
+                <input type="text" name="address" class="form-control" placeholder="Enter Hospital Address">
+            </div>
+
+            <div class="form-group mb-3">
+                <label>Hospital Contact Number</label>
+                <input type="text" name="contact" class="form-control" placeholder="Enter Hospital Contact Number">
+            </div>
+            
+            <div class='text-center mt-4'>
+            <button type="submit" class="btn btn-success">Save</button>
+            </div>
+        </form>
+        {% endif %}
+    </div>
+ 
+    <div class='container mt-5'>
+        <form method="POST">
+            {% csrf_token %}
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">Sl. No</th>
+                    <th scope="col">Hospital Name</th>
+                    <th scope="col">Hospital Address</th>
+                    <th scope="col">Hospital Contact Number</th>
+                    <th scope="col">Edit</th>
+                    <th scope="col">Delete</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for i in item_list %}
+                <tr>
+                    <th>{{forloop.counter}}</th>
+                    <td>{{i.name}}</td>
+                    <td>{{i.address}}</td>
+                    <td>{{i.contact}}</td>
+                    <td>
+                        <a href="{% url 'edit_item' i.id %}" class='btn btn-warning'>Edit</a>
+                    </td>
+                    <td>
+                        <a href="{% url 'delete_item' i.id %}" class='btn btn-danger'>Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </form>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+    
+  </body>
+</html>
